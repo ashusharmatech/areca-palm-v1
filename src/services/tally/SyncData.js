@@ -7,14 +7,15 @@ import Card from "../../components/Card/Card";
 import {makeStyles} from "@material-ui/core/styles";
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle";
 import Button from "../../components/CustomButtons/Button";
-import ExportLedgerVouchers from "./ExportLedgerVouchers";
+import ExportLedgerVouchers from "./export/main/ExportLedgerVouchers";
+import ExportGatewayOfTally from "./export/ExportGatewayOfTally";
 const useStyles = makeStyles(styles);
 
 const SyncData = function (props) {
     const classes = useStyles();
 
     const forceUpdate = React.useCallback(() => {
-        ExportLedgerVouchers();
+        ExportGatewayOfTally();
     }, []);
 
     return (
