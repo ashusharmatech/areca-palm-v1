@@ -22,7 +22,10 @@ const EXPORT_LEDGER_VOUCHER =
     '    </BODY>' +
     '</ENVELOPE>';
 
+const endpoint = '/vouchers';
+
 const ExportLedgerVoucher = function () {
+    //console.log("exporting ledger vouchers "+endpoint);
     ExportUtil(EXPORT_LEDGER_VOUCHER)
 }
 

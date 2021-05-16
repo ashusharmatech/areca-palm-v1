@@ -8,14 +8,14 @@ import {makeStyles} from "@material-ui/core/styles";
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle";
 import Button from "../../components/CustomButtons/Button";
 import ExportLedgerVouchers from "./export/main/ExportLedgerVouchers";
-import ExportGatewayOfTally from "./export/ExportGatewayOfTally";
+import ExportAll from "./export/ExportAll";
 const useStyles = makeStyles(styles);
 
 const SyncData = function (props) {
     const classes = useStyles();
 
     const forceUpdate = React.useCallback(() => {
-        ExportGatewayOfTally();
+        ExportAll();
     }, []);
 
     return (

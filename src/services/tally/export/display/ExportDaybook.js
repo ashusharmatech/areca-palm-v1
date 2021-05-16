@@ -14,7 +14,7 @@ const EXPORT_DAYBOOK =
     '<STATICVARIABLES>' +
     '<!--Specify the Period here-->' +
     '<SVFROMDATE>20060401</SVFROMDATE>' +
-    '<SVTODATE>20070331</SVTODATE>' +
+    '<SVTODATE>20220331</SVTODATE>' +
     '</STATICVARIABLES>' +
     '<!--Specify the Report Name here-->' +
     '<REPORTNAME>Voucher Register</REPORTNAME>' +
@@ -24,7 +24,7 @@ const EXPORT_DAYBOOK =
     '</ENVELOPE>';
 
 const ExportDaybook = function () {
-    ExportUtil(EXPORT_DAYBOOK)
+    ExportUtil(EXPORT_DAYBOOK, "/vouchers")
 }
 
 export default ExportDaybook;

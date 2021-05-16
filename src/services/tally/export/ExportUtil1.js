@@ -18,7 +18,8 @@ const ExportUtil = function (requestXml, endpoint) {
                 headers: {'Content-Type': 'application/xml'},
                 body: textResponse
             };
-            fetch(SERVER_URL+endpoint, requestForServer).then(r => console.log(r));
+            console.log("Calling server at " + SERVER_URL + endpoint);
+            fetch(SERVER_URL + endpoint, requestForServer).then(r => console.log(r));
         })
         .catch((error) => {
             console.log(error);

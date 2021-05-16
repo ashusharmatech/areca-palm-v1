@@ -5,14 +5,16 @@ import ExportStockFullDetailed from "./main/ExportStockFullDetailed";
 import ExportStockSummaryDetailed from "./main/ExportStockSummaryDetailed";
 import ExportStockSummary from "./main/ExportStockSummary";
 import ExportRatioAnalysis from "./main/ExportRatioAnalysis";
+import ExportDaybook from "./display/ExportDaybook";
 
-const ExportGatewayOfTally = function () {
-    ExportBalanceSheet();
-    ExportLedgerVoucher();
-    ExportProfitAndLoss();
-    ExportStockFullDetailed();
-    ExportStockSummary();
-    ExportStockSummaryDetailed();
-    ExportRatioAnalysis();
+const ExportAll = function () {
+    //ExportBalanceSheet();
+    //ExportLedgerVoucher();
+    //ExportProfitAndLoss();
+    //ExportStockFullDetailed();
+    //ExportStockSummary();
+    //ExportStockSummaryDetailed();
+    //ExportRatioAnalysis();
+    ExportDaybook();
 }
-export default ExportGatewayOfTally;
+export default ExportAll;
