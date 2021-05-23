@@ -1,77 +1,106 @@
-import React from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import React, {useState} from 'react';
+import axios from 'axios';
+import './LoginPage.css';
+import {API_BASE_URL} from '../../constants/ApiConstant';
+import { withRouter } from "react-router-dom";
+import CustomInput from "../../components/CustomInput/CustomInput";
+import Button from "@material-ui/core/Button";
+import {Input, TextField} from "@material-ui/core";
 
-import { authenticationService } from '../_services';
-
-class LoginPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // redirect to home if already logged in
-    if (authenticationService.currentUserValue) {
-      this.props.history.push('/');
+function LoginPage(props) {
+    const [state , setState] = useState({
+        email : "",
+        password : "",
+        successMessage: null
+    })
+    const handleChange = (e) => {
+        const {id , value} = e.target
+        setState(prevState => ({
+            ...prevState,
+            [id] : value
+        }))
     }
-  }
 
-  render() {
-    return (
-        <div>
-          <div className="alert alert-info">
-            Username: test<br />
-            Password: test
-          </div>
-          <h2>Login</h2>
-          <Formik
-              initialValues={{
-                username: '',
-                password: ''
-              }}
-              validationSchema={Yup.object().shape({
-                username: Yup.string().required('Username is required'),
-                password: Yup.string().required('Password is required')
-              })}
-              onSubmit={({ username, password }, { setStatus, setSubmitting }) => {
-                setStatus();
-                authenticationService.login(username, password)
-                    .then(
-                        user => {
-                          const { from } = this.props.location.state || { from: { pathname: "/" } };
-                          this.props.history.push(from);
-                        },
-                        error => {
-                          setSubmitting(false);
-                          setStatus(error);
-                        }
-                    );
-              }}
-              render={({ errors, status, touched, isSubmitting }) => (
-                  <Form>
-                    <div className="form-group">
-                      <label htmlFor="username">Username</label>
-                      <Field name="username" type="text" className={'form-control' + (errors.username && touched.username ? ' is-invalid' : '')} />
-                      <ErrorMessage name="username" component="div" className="invalid-feedback" />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="password">Password</label>
-                      <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
-                      <ErrorMessage name="password" component="div" className="invalid-feedback" />
-                    </div>
-                    <div className="form-group">
-                      <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Login</button>
-                      {isSubmitting &&
-                      <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                      }
-                    </div>
-                    {status &&
-                    <div className={'alert alert-danger'}>{status}</div>
-                    }
-                  </Form>
-              )}
-          />
+    const handleSubmitClick = (e) => {
+        e.preventDefault();
+        const payload={
+            "email":state.email,
+            "password":state.password,
+        }
+        axios.post(API_BASE_URL+'api/auth/signin', payload)
+            .then(function (response) {
+                console.log(response);
+                if(response.status === 200){
+                    setState(prevState => ({
+                        ...prevState,
+                        'successMessage' : 'Login successful. Redirecting to home page..'
+                    }))
+                    localStorage.setItem("user",response.data.accessToken)
+                    redirectToHome();
+                    props.showError(null)
+                }
+                else if(response.data.code === 204){
+                    props.showError("Username and password do not match");
+                }
+                else{
+                    props.showError("Username does not exists");
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+    const redirectToHome = () => {
+        props.history.push('/admin/dashboard');
+    }
+    const redirectToRegister = () => {
+        props.history.push('/register');
+    }
+    return(
+        <div className="App">
+            <form className="form">
+                <TextField
+                    label="Email"
+                    variant="outlined"
+                    labelText="Email"
+                    id="email"
+                    value={state.email}
+                    formControlProps={{
+                        fullWidth: true
+                    }}
+                    onChange={handleChange}
+                    type="text"
+                />
+                <br/>
+                <TextField
+                    label="Password"
+                    variant="outlined"
+                    labelText="Password"
+                    id="password"
+                    formControlProps={{
+                        fullWidth: true
+                    }}
+                    value={state.password}
+                    onChange={handleChange}
+                    type="password"
+                />
+
+                <Button type="button" color="primary" className="form_custom-button" onClick={handleSubmitClick}>
+                    Log in
+                </Button>
+
+
+                <div className="alert alert-success mt-2" style={{display: state.successMessage ? 'block' : 'none' }} role="alert">
+                    {state.successMessage}
+                </div>
+                <div className="registerMessage">
+                    <span>Dont have an account? </span>
+                    <span className="loginText" onClick={() => redirectToRegister()}>Register</span>
+                </div>
+
+            </form>
         </div>
     )
-  }
 }
 
-export { LoginPage };
+export default withRouter(LoginPage);
