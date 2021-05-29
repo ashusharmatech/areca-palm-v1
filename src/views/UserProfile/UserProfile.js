@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -13,6 +13,7 @@ import CardFooter from "components/Card/CardFooter.js";
 import avatar from "assets/img/faces/marc.jpg";
 import {Avatar, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
 import {Check, Email, Face, MobileFriendly, Phone} from "@material-ui/icons";
+import {Redirect} from "react-router-dom";
 
 const styles = {
   cardCategoryWhite: {
@@ -35,8 +36,25 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
+
 export default function UserProfile() {
+
   const classes = useStyles();
+  const [loggedOut, setLoggedOut] = useState(false)
+  const handleLogout = (event) => {
+    localStorage.removeItem("user")
+    setLoggedOut(true)
+  };
+
+
+
+
+
+
+  if (loggedOut) {
+    return <Redirect to="/login"/>
+  }
+
   return (
     <div>
       <GridContainer>
@@ -72,7 +90,7 @@ export default function UserProfile() {
               </GridContainer>
             </CardBody>
             <CardFooter>
-              <Button color="primary">Logout</Button>
+              <Button color="primary" onClick={handleLogout}>Logout</Button>
             </CardFooter>
           </Card>
         </GridItem>

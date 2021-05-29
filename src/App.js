@@ -2,8 +2,10 @@ import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 
 import Admin from "./layouts/Admin";
 import PrivateRoute from "./PrivateRoute";
-import LoginPage from "./views/Login/LoginPage";
-import Register from "./views/Login/Register";
+import LoginPage from "./views/LoginPage/LoginPage";
+import Register from "./views/Register/Register";
+import UserProfile from "./views/UserProfile/UserProfile";
+import Logout from "./views/Logout/Logout";
 
 const App = function () {
     return (
@@ -13,6 +15,7 @@ const App = function () {
                 <PrivateRoute path="/admin" component={Admin}/>
                 <Route path="/login" component={LoginPage}/>
                 <Route path="/register" component={Register}/>
+                <Route path="/userprofile" component={UserProfile}/>
                 <Redirect from="/" to="/admin/dashboard"/>
             </Switch>
         </BrowserRouter>

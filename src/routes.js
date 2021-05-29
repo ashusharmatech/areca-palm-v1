@@ -12,6 +12,7 @@ import UserProfile from "views/UserProfile/UserProfile.js";
 import SystemInfo from "views/SystemInfo/SystemInfo.js";
 import TableList from "views/TableList/TableList.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
+import Logout from "./views/Logout/Logout";
 
 const dashboardRoutes = [
     {
@@ -22,7 +23,7 @@ const dashboardRoutes = [
         layout: "/admin",
     },
     {
-        path: "/user",
+        path: "/userprofile",
         name: "User Profile",
         icon: Person,
         component: UserProfile,
@@ -48,6 +49,13 @@ const dashboardRoutes = [
         icon: Notifications,
         component: NotificationsPage,
         layout: "/admin",
+    },
+    {
+        path: "/logout",
+        name: "Logout",
+        icon: Logout,
+        component: Logout,
+        layout: "/logout",
     }
 ];
 

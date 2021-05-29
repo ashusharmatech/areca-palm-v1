@@ -9,6 +9,7 @@ import Card from "../../components/Card/Card";
 import {makeStyles} from "@material-ui/core/styles";
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle";
 import Button from "../../components/CustomButtons/Button";
+import axios from "axios";
 
 const useStyles = makeStyles(styles);
 
@@ -19,15 +20,19 @@ const ConnectivityChecker = function (props) {
     const [color, setColor] = useState("warning");
     const forceUpdate = React.useCallback(() => setConnected(""), []);
 
-    fetch(props.url)
-        .then(data => {
-            setConnected("Yes");
-            setColor("success");
-        })
-        .catch(function () {
-            setConnected("No");
-            setColor("warning");
+
+    axios.post(props.url)
+        .then(function (response) {
+            if (response.status === 200 || response.status === 201) {
+                setConnected("Yes");
+                setColor("success");
+            }
+            else{
+                setConnected("No");
+                setColor("warning");
+            }
         });
+
     return (
         <Card>
             <CardHeader color={color} stats icon>
