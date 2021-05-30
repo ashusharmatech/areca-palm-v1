@@ -5,7 +5,6 @@ import PrivateRoute from "./PrivateRoute";
 import LoginPage from "./views/LoginPage/LoginPage";
 import Register from "./views/Register/Register";
 import UserProfile from "./views/UserProfile/UserProfile";
-import Logout from "./views/Logout/Logout";
 
 const App = function () {
     return (

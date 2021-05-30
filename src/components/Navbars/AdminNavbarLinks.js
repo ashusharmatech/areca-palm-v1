@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,6 +19,7 @@ import Search from "@material-ui/icons/Search";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
+import {Redirect} from "react-router-dom";
 
 const useStyles = makeStyles(styles);
 
@@ -32,9 +33,23 @@ export default function AdminNavbarLinks() {
       setOpenProfile(event.currentTarget);
     }
   };
+
+
   const handleCloseProfile = () => {
     setOpenProfile(null);
   };
+
+  const [loggedOut, setLoggedOut] = useState(false)
+  const handleLogout = (event) => {
+    localStorage.removeItem("user")
+    setLoggedOut(true)
+  };
+
+  if (loggedOut) {
+    return <Redirect to="/login"/>
+  }
+
+
   return (
     <div>
       <div className={classes.manager}>

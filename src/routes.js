@@ -1,6 +1,7 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
+import FavoriteRounded from "@material-ui/icons/FavoriteRounded";
 import Notifications from "@material-ui/icons/Notifications";
 import Computer from "@material-ui/icons/Computer";
 
@@ -12,7 +13,8 @@ import UserProfile from "views/UserProfile/UserProfile.js";
 import SystemInfo from "views/SystemInfo/SystemInfo.js";
 import TableList from "views/TableList/TableList.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
-import Logout from "./views/Logout/Logout";
+import Charts from "views/Charts/Charts";
+
 
 const dashboardRoutes = [
     {
@@ -20,13 +22,6 @@ const dashboardRoutes = [
         name: "Dashboard",
         icon: Dashboard,
         component: DashboardPage,
-        layout: "/admin",
-    },
-    {
-        path: "/userprofile",
-        name: "User Profile",
-        icon: Person,
-        component: UserProfile,
         layout: "/admin",
     },
     {
@@ -51,11 +46,19 @@ const dashboardRoutes = [
         layout: "/admin",
     },
     {
-        path: "/logout",
-        name: "Logout",
-        icon: Logout,
-        component: Logout,
-        layout: "/logout",
+        path: "/userprofile",
+        name: "User Profile",
+        icon: Person,
+        component: UserProfile,
+        layout: "/admin",
+    },
+    ,
+    {
+        path: "/charts",
+        name: "Charts",
+        icon: FavoriteRounded,
+        component: Charts,
+        layout: "/admin",
     }
 ];
 
