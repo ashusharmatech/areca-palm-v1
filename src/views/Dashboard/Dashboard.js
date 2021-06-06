@@ -23,7 +23,7 @@ export default function Dashboard() {
                     ></ConnectivityChecker>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
-                    <ConnectivityChecker url="https://609648fd116f3f00174b2dfb.mockapi.io/check/internet"
+                    <ConnectivityChecker url="http://localhost:9090/view/api/health"
                                          icon="network_wifi"
                                          title="Internet"
                     ></ConnectivityChecker>
