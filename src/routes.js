@@ -14,6 +14,8 @@ import SystemInfo from "views/SystemInfo/SystemInfo.js";
 import TableList from "views/TableList/TableList.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import Charts from "views/Charts/Charts";
+import GatewayToTally from "./views/GatewayToTally/GatewayToTally";
+import {LocalCafe, MultilineChart} from "@material-ui/icons";
 
 
 const dashboardRoutes = [
@@ -56,8 +58,15 @@ const dashboardRoutes = [
     {
         path: "/charts",
         name: "Charts",
-        icon: FavoriteRounded,
+        icon: MultilineChart,
         component: Charts,
+        layout: "/admin",
+    },
+    {
+        path: "/gatewaytotally",
+        name: "GatewayToTally",
+        icon: LocalCafe,
+        component: GatewayToTally,
         layout: "/admin",
     }
 ];

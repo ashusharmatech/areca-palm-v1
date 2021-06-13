@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import CardHeader from "../../components/Card/CardHeader";
 import CardIcon from "../../components/Card/CardIcon";
 import Icon from "@material-ui/core/Icon";
@@ -9,14 +9,31 @@ import styles from "../../assets/jss/material-dashboard-react/views/dashboardSty
 import Button from "../../components/CustomButtons/Button";
 import ExportLedgerVouchers from "./export/main/ExportLedgerVouchers";
 import ExportAll from "./export/ExportAll";
+import {CircularProgress, LinearProgress} from "@material-ui/core";
+import HighchartsReact from "highcharts-react-official";
+import Highcharts from "highcharts/highstock";
+import axios from "axios";
+
 const useStyles = makeStyles(styles);
 
 const SyncData = function (props) {
     const classes = useStyles();
+    const [isLoading, setLoading] = useState(false);
+
+    const promise = new Promise(() => {
+        ExportAll();
+    });
 
     const forceUpdate = React.useCallback(() => {
-        ExportAll();
-    }, []);
+        setLoading(true);
+        promise.then(function (res) {
+            console.log("voucher data uploaded");
+            console.log(res);
+            setLoading(false);
+        });
+    }, () => {
+        setLoading(false)
+    });
 
     return (
         <Card>
@@ -24,16 +41,25 @@ const SyncData = function (props) {
                 <CardIcon color="success">
                     <Icon>leak_add</Icon>
                 </CardIcon>
-                <p className={classes.cardCategory}>Sync the data with server</p>
-                <h3 className={classes.cardTitle}>
-                    <Button
-                        color={window.innerWidth > 959 ? "transparent" : "white"}
-                        aria-haspopup="true"
-                        className={classes.buttonLink}
-                        onClick={(e) => forceUpdate()}>
-                        <Icon>sync_alt</Icon>
-                    </Button>
-                </h3>
+                <p className={classes.cardCategory}>Sync the data with server{isLoading}</p>
+
+                    {isLoading ?
+                        <LinearProgress />
+                        :
+                        <h3 className={classes.cardTitle}>
+
+                        <Button
+                            color={window.innerWidth > 959 ? "transparent" : "white"}
+                            aria-haspopup="true"
+                            className={classes.buttonLink}
+                            onClick={(e) => forceUpdate()}>
+                            <Icon>sync_alt</Icon>
+                        </Button>
+                        </h3>
+
+                    }
+
+
             </CardHeader>
             <CardFooter stats>
                 <div className={classes.stats}>
