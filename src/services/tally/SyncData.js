@@ -13,6 +13,7 @@ import {CircularProgress, LinearProgress} from "@material-ui/core";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts/highstock";
 import axios from "axios";
+import ImportAll from "./import/ImportAll";
 
 const useStyles = makeStyles(styles);
 
@@ -22,6 +23,21 @@ const SyncData = function (props) {
 
     const promise = new Promise(() => {
         ExportAll();
+    });
+
+    const promiseImport = new Promise(() => {
+        ImportAll();
+    });
+
+    const importData = React.useCallback(() => {
+        setLoading(true);
+        promiseImport.then(function (res) {
+            console.log("voucher data imported");
+            console.log(res);
+            setLoading(false);
+        });
+    }, () => {
+        setLoading(false)
     });
 
     const forceUpdate = React.useCallback(() => {
@@ -47,6 +63,14 @@ const SyncData = function (props) {
                         <LinearProgress />
                         :
                         <h3 className={classes.cardTitle}>
+
+                            <Button
+                                color={window.innerWidth > 959 ? "transparent" : "white"}
+                                aria-haspopup="true"
+                                className={classes.buttonLink}
+                                onClick={(e) => importData()}>
+                                <Icon>cloud-upload-alt</Icon>
+                            </Button>
 
                         <Button
                             color={window.innerWidth > 959 ? "transparent" : "white"}
